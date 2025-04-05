@@ -5,6 +5,14 @@ import './App.css'
 import QuestionCard from './components/QuestionCard'
 
 function App() {
+  const [score, setScore] =useState(0)
+  const stats = (isCorrect) =>{
+    if(isCorrect){
+      setScore(prev => prev + 1);
+    }else{
+      setScore(prev => (prev > 0 ? prev - 1 : 0));
+    }
+  }
   const [questionData, setQuestions] = useState([])
   const fetchQuestions = async() =>{  
     try{
@@ -24,10 +32,11 @@ function App() {
 
   return (
     <>
+    <h1>Let's Play Some Trivia</h1>
+    <h2>Score: {(score*2)}%</h2>
     {questionData.map((question, idx) =>  (
-      <div key={idx}>
-        {/* <h3>{question.question}</h3> */}
-        <QuestionCard question={question.question} correct_answer={question.correct_answer} incorrect_answers={question.incorrect_answers}/>
+      <div style={{marginBottom:"10px"}}key={idx}>
+        <QuestionCard onAnswer={stats} question={question.question} correct_answer={question.correct_answer} incorrect_answers={question.incorrect_answers}/>
       </div>
     ))}
       
